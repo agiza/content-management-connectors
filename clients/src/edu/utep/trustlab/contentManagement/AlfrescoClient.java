@@ -43,7 +43,7 @@ import org.apache.commons.httpclient.util.URIUtil;
 import edu.utep.trustlab.contentManagement.util.FileUtilities;
 
 
-public class AlfrescoClient extends ContentManagerInterface {
+public class AlfrescoClient extends ContentManager {
 
 	private static String workspacePath;
 	

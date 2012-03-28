@@ -48,7 +48,7 @@ import edu.utep.cybershare.ciclient.ciconnect.CIClient;
 import edu.utep.cybershare.ciclient.ciconnect.CIKnownServerTable;
 import edu.utep.trustlab.contentManagement.util.FileUtilities;
 
-public class CIServer extends ContentManagerInterface {
+public class CIServer extends ContentManager {
 	
 	private String uname;
 	private String pword;

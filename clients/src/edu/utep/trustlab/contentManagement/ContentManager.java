@@ -42,15 +42,15 @@ package edu.utep.trustlab.contentManagement;
 
 import java.io.File;
 
-public abstract class ContentManagerInterface {
+public abstract class ContentManager {
 
-	private static ContentManagerInterface SERVER;
+	private static ContentManager SERVER;
 	
-	public static void setContentManager(ContentManagerInterface server){
+	public static void setContentManager(ContentManager server){
 		SERVER = server;
 	}
 	
-	public static ContentManagerInterface getRepository(){
+	public static ContentManager getContentManager(){
 		return SERVER;
 	}
 	
