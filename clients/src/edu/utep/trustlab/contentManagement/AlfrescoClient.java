@@ -40,15 +40,30 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.util.URIUtil;
 
+import edu.utep.trustlab.contentManagement.util.FileUtilities;
 
-public class AlfrescoClient {
 
+public class AlfrescoClient extends ContentManagerInterface {
+
+	private static String workspacePath;
+	
+	public static void setWorkspacePath(String path){
+		workspacePath = path;
+	}
+	
+	public static String getWorkspacePath(){
+		return workspacePath;
+	}
+	
 	protected HttpConnectionManager connectionManager;
 	protected String username;
 	protected String password;
 	protected static String alfrescoBaseUrl;
 	protected boolean loggedIn = false;
+	protected String parentProject;
 
+	private String fileNodeURL;
+	
 	public static final String PATH_SERVICE = "/service/";
 	
 	public AlfrescoClient() {
@@ -61,7 +76,7 @@ public class AlfrescoClient {
 		this.connectionManager = cm;
 	}
 
-	public AlfrescoClient(String user, String pass, String server){
+	public AlfrescoClient(String server, String project, String user, String pass){
 
 		// Use the example from CommonsHTTPSender - we need to make sure connections are freed properly
 		MultiThreadedHttpConnectionManager cm = new MultiThreadedHttpConnectionManager();
@@ -70,12 +85,12 @@ public class AlfrescoClient {
 		cm.getParams().setConnectionTimeout(8000);
 		this.connectionManager = cm;
 
+		projectName = project;
 		this.logIn(user, pass, server);
 
 	}
 
-
-
+	
 	public String getUsername(){return username;}
 	public String getPassword(){return password;}
 	public boolean isLoggedIn(){return loggedIn;}
@@ -398,13 +413,12 @@ public class AlfrescoClient {
 
 	/**
 	 * Full process of uploading a file and getting the final URI for the file.
-	 * @param project where to upload the file
 	 * @param file itself
 	 * @return Final URI of the file
 	 */
-	public String uploadFile(String project, File file){
+	public String uploadFile(File file){
 
-		String nodeURL = createNode(project, file.getName());
+		String nodeURL = createNode(projectName, file.getName());
 
 		addContentToNode(nodeURL, file);
 
@@ -426,7 +440,29 @@ public class AlfrescoClient {
 		AlfrescoClient ac = new AlfrescoClient();
 		File file = new File("C:\\Users\\Public\\git\\visko\\rdf\\contourer.owl");
 		ac.logIn("admin", "booger1", "http://localhost:8080/alfresco");
-		String URI = ac.uploadFile("ProjectY", file);
+		String URI = ac.uploadFile(file);
 		System.out.println("URI: " + URI);
+	}
+
+	@Override
+	public String saveDocument(File file) {
+		addContentToNode(fileNodeURL, file);
+		return fileNodeURL;
+	}
+
+	@Override
+	public String saveDocument(String fileContents, String fileName) {
+		String absolutePath = FileUtilities.writeTextFile(fileContents, AlfrescoClient.getWorkspacePath(), fileName);
+		File file = new File(absolutePath);
+		addContentToNode(fileNodeURL, file);
+		return fileNodeURL;
+	}
+
+	@Override
+	public String getBaseURL(String fileName) {
+		fileNodeURL = createNode(projectName, fileName);
+		
+		//return just base URL without file name appended
+		return fileNodeURL.replaceAll(fileName, "");
 	}
 }

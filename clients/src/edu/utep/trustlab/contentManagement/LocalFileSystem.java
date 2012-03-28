@@ -40,9 +40,11 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*
 
 package edu.utep.trustlab.contentManagement;
 
+import java.io.File;
+
 import edu.utep.trustlab.contentManagement.util.FileUtilities;
 
-public class LocalFileSystem extends ContentManagerInterface{
+public class LocalFileSystem extends ContentManagerInterface {
 	
 	public static final String VISKO_GITHUB_RDF_PATH = "../visko-rdf/";
 	
@@ -62,11 +64,16 @@ public class LocalFileSystem extends ContentManagerInterface{
 		url = serverURL;
 	}
 	
-	public String getBaseURL(){
+	public String getBaseURL(String fileName){
 		return url;
 	}
 	public String saveDocument(String fileContents, String fileName) {
 		FileUtilities.writeTextFile(fileContents, path, fileName);
 		return url + fileName;
+	}
+
+	@Override
+	public String saveDocument(File file) {
+		return file.getAbsolutePath();
 	}
 }

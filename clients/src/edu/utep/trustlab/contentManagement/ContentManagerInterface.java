@@ -40,11 +40,13 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*
 
 package edu.utep.trustlab.contentManagement;
 
+import java.io.File;
+
 public abstract class ContentManagerInterface {
 
 	private static ContentManagerInterface SERVER;
 	
-	public static void setRepository(ContentManagerInterface server){
+	public static void setContentManager(ContentManagerInterface server){
 		SERVER = server;
 	}
 	
@@ -52,6 +54,13 @@ public abstract class ContentManagerInterface {
 		return SERVER;
 	}
 	
+	protected String projectName;
+	
+	public void setProjectName(String name){
+		projectName = name;
+	}
+	public abstract String saveDocument(File file);
 	public abstract String saveDocument(String fileContents, String fileName);
-	public abstract String getBaseURL();
+	
+	public abstract String getBaseURL(String fileName);
 }

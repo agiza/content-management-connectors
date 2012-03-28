@@ -40,23 +40,24 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*
 
 package edu.utep.trustlab.contentManagement;
 
+import java.io.File;
+
 import edu.utep.cybershare.ciclient.CIPut;
 import edu.utep.cybershare.ciclient.CIReturnObject;
 import edu.utep.cybershare.ciclient.ciconnect.CIClient;
 import edu.utep.cybershare.ciclient.ciconnect.CIKnownServerTable;
+import edu.utep.trustlab.contentManagement.util.FileUtilities;
 
 public class CIServer extends ContentManagerInterface {
 	
 	private String uname;
 	private String pword;
 	private String url;
-	private String pName;
 	private CIClient ciClient;
 	private static String INFIX = "ciprojects/";
 
-	public CIServer(String serverURL, String projectName, String username, String password) {
+	public CIServer(String serverURL, String username, String password) {
 		url = serverURL;
-		pName = projectName;
 		uname = username;
 		pword = password;
 		
@@ -67,12 +68,13 @@ public class CIServer extends ContentManagerInterface {
 		url = serverURL;
 	}
 	
-	public String getBaseURL() {
+	public String getBaseURL(String fileName) {
 		String viskoCIServerURL;
+		
 		if (url.endsWith("/")) {
-			viskoCIServerURL = url + INFIX + pName + "/";
+			viskoCIServerURL = url + INFIX + projectName + "/";
 		} else {
-			viskoCIServerURL = url + "/" + INFIX + pName + "/";
+			viskoCIServerURL = url + "/" + INFIX + projectName + "/";
 		}
 		return viskoCIServerURL;
 
@@ -89,10 +91,11 @@ public class CIServer extends ContentManagerInterface {
 		}
 	}
 	
+	@Override
 	public String saveDocument(String fileContents, String fileName) {
 		try {
 			CIReturnObject ro = null;
-			ro = CIPut.ciUploadFile(ciClient, pName, fileName, fileContents, CIClient.VISKO_TYPE, true, false);
+			ro = CIPut.ciUploadFile(ciClient, projectName, fileName, fileContents, CIClient.VISKO_TYPE, true, false);
 			System.out.println("The result is: error code: " + ro.gStatus + " with message: " + ro.gMessage);
 
 			if (ro.gStatus.equals("0")) {
@@ -106,5 +109,11 @@ public class CIServer extends ContentManagerInterface {
 			System.out.println("Cannot upload VisKo document...");
 			return null;
 		}
+	}
+
+	@Override
+	public String saveDocument(File file) {
+		String fileContents = FileUtilities.readTextFile(file.getAbsolutePath());
+		return saveDocument(fileContents, file.getName());
 	}
 }
