@@ -76,7 +76,7 @@ public class AlfrescoClient extends ContentManager {
 		this.connectionManager = cm;
 	}
 
-	public AlfrescoClient(String server, String project, String user, String pass){
+	public AlfrescoClient(String server, String user, String pass){
 
 		// Use the example from CommonsHTTPSender - we need to make sure connections are freed properly
 		MultiThreadedHttpConnectionManager cm = new MultiThreadedHttpConnectionManager();
@@ -84,8 +84,6 @@ public class AlfrescoClient extends ContentManager {
 		cm.getParams().setMaxTotalConnections(5);
 		cm.getParams().setConnectionTimeout(8000);
 		this.connectionManager = cm;
-
-		projectName = project;
 		this.logIn(user, pass, server);
 
 	}
