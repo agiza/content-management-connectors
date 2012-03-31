@@ -44,7 +44,16 @@ import java.io.File;
 
 public abstract class ContentManager {
 
+	private static String workspacePath;
 	private static ContentManager SERVER;
+
+	public static void setWorkspacePath(String path){
+		workspacePath = path;
+	}
+	
+	public static String getWorkspacePath(){
+		return workspacePath;
+	}
 	
 	public static void setContentManager(ContentManager server){
 		SERVER = server;

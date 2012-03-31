@@ -44,16 +44,6 @@ import edu.utep.trustlab.contentManagement.util.FileUtilities;
 
 
 public class AlfrescoClient extends ContentManager {
-
-	private static String workspacePath;
-	
-	public static void setWorkspacePath(String path){
-		workspacePath = path;
-	}
-	
-	public static String getWorkspacePath(){
-		return workspacePath;
-	}
 	
 	protected HttpConnectionManager connectionManager;
 	protected String username;
@@ -424,6 +414,10 @@ public class AlfrescoClient extends ContentManager {
 	}
 
 	public void logIn(String Username, String Password, String Server){
+		System.out.println(Username);
+		System.out.println(Password);
+		System.out.println(Server);
+		
 		setBaseUrl(Server);
 		try {
 			setAuthentication(Username, Password);
@@ -460,7 +454,11 @@ public class AlfrescoClient extends ContentManager {
 	public String getBaseURL(String fileName) {
 		fileNodeURL = createNode(projectName, fileName);
 		
+		String completeFileNodeURL = AlfrescoClient.alfrescoBaseUrl + fileNodeURL;
+		
 		//return just base URL without file name appended
-		return fileNodeURL.replaceAll(fileName, "");
+		String cleanURL = completeFileNodeURL.replace("/" + fileName, "/");
+		cleanURL = cleanURL.replace("\n", "");
+		return cleanURL;
 	}
 }
