@@ -3,13 +3,18 @@
 	<property name="jarfile" value="content-management-clients.jar" />
 	<property name="build" value="build"/>
 	<property name="lib" value="lib"/>
-	<property name="src" value="src"/>	
+	<property name="src" value="src"/>
+	<property name="visko-api-util-lib" value="../../visko/api/lib/util"/>
 	
 	<target name="build" depends="compile" description="Creates the jar file">
 		<jar destfile="${jarfile}">
 			<fileset dir="${build}" includes="**/*.*" />
 		</jar>
-	</target>	
+	</target>
+
+	<target name="deploy-in-visko-api" depends="build" description="Moves the jar file to visko/api/lib">
+		<copy file="${jarfile}" todir="${visko-api-util-lib}"/>
+	</target>
 	
 	<target name="compile" depends="clean" description="Compile in build Directory">		
 		<mkdir dir="${build}"/>
