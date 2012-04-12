@@ -51,7 +51,8 @@ public class AlfrescoClient extends ContentManager {
 	protected static String alfrescoBaseUrl;
 	protected boolean loggedIn = false;
 	protected String parentProject;
-
+	protected String webDAVURL;
+	
 	private String fileNodeURL;
 	
 	public static final String PATH_SERVICE = "/service/";
@@ -449,16 +450,24 @@ public class AlfrescoClient extends ContentManager {
 		addContentToNode(fileNodeURL, file);
 		return fileNodeURL;
 	}
+	
+	public void setWebDAVURL(String url){
+		webDAVURL = url;
+	}
 
 	@Override
 	public String getBaseURL(String fileName) {
 		fileNodeURL = createNode(projectName, fileName);
+	
+		if(webDAVURL == null){
+			String completeFileNodeURL = AlfrescoClient.alfrescoBaseUrl + fileNodeURL;
 		
-		String completeFileNodeURL = AlfrescoClient.alfrescoBaseUrl + fileNodeURL;
-		
-		//return just base URL without file name appended
-		String cleanURL = completeFileNodeURL.replace("/" + fileName, "/");
-		cleanURL = cleanURL.replace("\n", "");
-		return cleanURL;
+			//return just base URL without file name appended
+			String cleanURL = completeFileNodeURL.replace("/" + fileName, "/");
+			cleanURL = cleanURL.replace("\n", "");
+			return cleanURL;
+		}
+		else
+			return webDAVURL;
 	}
 }
