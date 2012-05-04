@@ -369,6 +369,8 @@ public class AlfrescoClient extends ContentManager {
 	 */
 	public void addContentToNode(String nodeURL, File file){
 
+		System.out.println("The node URL: " + nodeURL);
+		
 		String[] uuid = nodeURL.split("/");
 
 		PostMethod postMethod = new PostMethod();
