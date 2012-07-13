@@ -72,7 +72,7 @@ public abstract class ContentManager {
 		dataManager = server;
 	}
 	
-	public static ContentManager getViskoContentManager(){
+	public static ContentManager getViskoRDFContentManager(){
 		return viskoRDFManager;
 	}
 	
