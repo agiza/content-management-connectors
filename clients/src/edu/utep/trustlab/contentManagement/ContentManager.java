@@ -45,8 +45,12 @@ import java.io.File;
 public abstract class ContentManager {
 
 	private static String workspacePath;
-	private static ContentManager SERVER;
+	
+	private static ContentManager viskoRDFManager;
+	private static ContentManager provenanceManager;
+	private static ContentManager dataManager;
 
+	//workspace needed for alfresco, that requires a File pointer, so data must be written to local file sys
 	public static void setWorkspacePath(String path){
 		workspacePath = path;
 	}
@@ -55,14 +59,31 @@ public abstract class ContentManager {
 		return workspacePath;
 	}
 	
-	public static void setContentManager(ContentManager server){
-		SERVER = server;
+	//different content managers for visko rdf, provenance and datasets
+	public static void setViskoRDFContentManager(ContentManager server){
+		viskoRDFManager = server;
 	}
 	
-	public static ContentManager getContentManager(){
-		return SERVER;
+	public static void setProvenanceContentManager(ContentManager server){
+		provenanceManager = server;
 	}
 	
+	public static void setDataContentManager(ContentManager server){
+		dataManager = server;
+	}
+	
+	public static ContentManager getViskoContentManager(){
+		return viskoRDFManager;
+	}
+	
+	public static ContentManager getProvenanceContentManager(){
+		return provenanceManager;
+	}
+	
+	public static ContentManager getDataContentManager(){
+		return dataManager;
+	}
+
 	protected String projectName;
 	
 	public void setProjectName(String name){
