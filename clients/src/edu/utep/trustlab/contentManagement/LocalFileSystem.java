@@ -63,7 +63,7 @@ public class LocalFileSystem extends ContentManager {
 	}
 	
 	public String getBaseURL(String fileName){
-		return url;
+		return url + fileName;
 	}
 	public String saveDocument(String fileContents, String fileName) {
 		FileUtilities.writeTextFile(fileContents, path, fileName);
