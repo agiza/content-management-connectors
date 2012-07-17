@@ -467,6 +467,7 @@ public class AlfrescoClient extends ContentManager {
 			//return just base URL without file name appended
 			String cleanURL = completeFileNodeURL.replace("/" + fileName, "/");
 			cleanURL = cleanURL.replace("\n", "");
+			cleanURL = cleanURL.replace("\r", "");
 			return cleanURL;
 		}
 		else
