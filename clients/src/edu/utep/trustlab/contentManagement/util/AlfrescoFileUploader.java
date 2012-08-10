@@ -2,7 +2,7 @@ package edu.utep.trustlab.contentManagement.util;
 
 import java.io.File;
 
-import edu.utep.trustlab.contentManagement.AlfrescoClient;
+import edu.utep.trustlab.contentManagement.VeloClientAdapter;
 import edu.utep.trustlab.contentManagement.ContentManager;
 
 public class AlfrescoFileUploader {
@@ -17,9 +17,9 @@ public class AlfrescoFileUploader {
 		String projectName = "formats";
 		String formats = "C:\\Users\\Public\\git\\visko\\rdf\\formats\\";
 		
-		manager = new AlfrescoClient(serverURL, username, password);
+		manager = new VeloClientAdapter(serverURL, username, password);
 		manager.setProjectName(projectName);
-		AlfrescoClient.setWorkspacePath(formats);
+		VeloClientAdapter.setWorkspacePath(formats);
 		
 		File formatDir = new File(formats);
 		visitAllDirsAndFiles(formatDir);
@@ -45,7 +45,6 @@ public class AlfrescoFileUploader {
 		if(fileName.endsWith(".owl"))
 		{
 			System.out.println("processing file: " + fileName);
-			manager.getBaseURL(fileName);
 			manager.saveDocument(file);
 		}
 	}

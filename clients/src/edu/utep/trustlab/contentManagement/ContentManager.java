@@ -92,5 +92,5 @@ public abstract class ContentManager {
 	public abstract String saveDocument(File file);
 	public abstract String saveDocument(String fileContents, String fileName);
 	
-	public abstract String getBaseURL(String fileName);
+	public abstract String getBaseURL();
 }

@@ -62,7 +62,7 @@ public class LocalFileSystem extends ContentManager {
 		url = serverURL;
 	}
 	
-	public String getBaseURL(String fileName){
+	public String getBaseURL(){
 		return url;
 	}
 	public String saveDocument(String fileContents, String fileName) {

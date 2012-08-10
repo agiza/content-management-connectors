@@ -68,7 +68,7 @@ public class CIServer extends ContentManager {
 		url = serverURL;
 	}
 	
-	public String getBaseURL(String fileName) {
+	public String getBaseURL() {
 		String viskoCIServerURL;
 		
 		if (url.endsWith("/")) {
