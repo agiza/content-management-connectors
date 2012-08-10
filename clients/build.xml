@@ -21,7 +21,7 @@
 		<javac destdir="${build}/" srcdir="${src}" target="1.6"> 
 	    	<include name="**/*.java"/>
 			<classpath>
-				<fileset dir="${lib}/libs-alfresco/">
+				<fileset dir="${lib}/libs-velo/">
 					<include name="*.jar"/>
 				</fileset>	
 				<fileset dir="${lib}/libs-ciserver/">
