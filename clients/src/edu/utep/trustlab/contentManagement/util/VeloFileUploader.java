@@ -5,7 +5,7 @@ import java.io.File;
 import edu.utep.trustlab.contentManagement.VeloClientAdapter;
 import edu.utep.trustlab.contentManagement.ContentManager;
 
-public class AlfrescoFileUploader {
+public class VeloFileUploader {
 	
 	public static ContentManager manager;
 	
