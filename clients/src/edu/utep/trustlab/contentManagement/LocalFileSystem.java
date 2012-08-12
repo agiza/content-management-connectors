@@ -43,6 +43,7 @@ package edu.utep.trustlab.contentManagement;
 import java.io.File;
 
 import edu.utep.trustlab.contentManagement.util.FileUtilities;
+import edu.utep.trustlab.contentManagement.util.GetURLContents;
 
 public class LocalFileSystem extends ContentManager {
 	
@@ -69,9 +70,22 @@ public class LocalFileSystem extends ContentManager {
 		FileUtilities.writeTextFile(fileContents, path, fileName);
 		return url + fileName;
 	}
+	
+	@Override
+	public String saveDocument(byte[] fileContents, String fileName) {
+		FileUtilities.writeBinaryFile(fileContents, path, fileName);
+		return url + fileName;
+	}
+		
+	public String saveDocument(String url){
+		byte[] fileContents = GetURLContents.downloadFile(url);
+		String fileName = GetURLContents.getFileNameFromURL(url);
+		
+		return saveDocument(fileContents, fileName);
+	}
 
 	@Override
 	public String saveDocument(File file) {
-		return file.getAbsolutePath();
+		return url + file.getName();
 	}
 }

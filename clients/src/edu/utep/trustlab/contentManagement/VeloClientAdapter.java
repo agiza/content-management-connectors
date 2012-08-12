@@ -20,6 +20,8 @@ package edu.utep.trustlab.contentManagement;
 import java.io.File;
 import org.velo.java.client.VeloJavaClient;
 
+import edu.utep.trustlab.contentManagement.util.FileUtilities;
+
 public class VeloClientAdapter extends ContentManager {
 
 	private VeloJavaClient client; 
@@ -47,17 +49,30 @@ public class VeloClientAdapter extends ContentManager {
 
 	@Override
 	public String saveDocument(String fileContents, String fileName) {
-		String filePath = ContentManager.getWorkspacePath() + File.pathSeparator + fileName;	
+		String filePath = FileUtilities.writeTextFile(fileContents, ContentManager.getWorkspacePath(), fileName);
 		client.upload("/Projects/" + projectName, filePath);
 		
 		return getBaseURL() + fileName;
 	}
 
 	@Override
+	public String saveDocument(byte[] fileContents, String fileName) {
+		String filePath = FileUtilities.writeBinaryFile(fileContents, ContentManager.getWorkspacePath(), fileName);
+		client.upload("/Projects/" + projectName, filePath);
+		
+		return getBaseURL() + fileName;		
+	}
+	
+	@Override
 	public String getBaseURL() {
 		if(projectName != null)
 			return url + "/webdav/Projects/" + projectName + "/";
 		
 		return null;
+	}
+
+	@Override
+	public String saveDocument(String url) {
+		return client.uploadUrl("/Projects/" + projectName, url);
 	}
 }

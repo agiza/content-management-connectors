@@ -90,7 +90,8 @@ public abstract class ContentManager {
 		projectName = name;
 	}
 	public abstract String saveDocument(File file);
+	public abstract String saveDocument(byte[] fileContents, String fileName);
 	public abstract String saveDocument(String fileContents, String fileName);
-	
+	public abstract String saveDocument(String url);
 	public abstract String getBaseURL();
 }

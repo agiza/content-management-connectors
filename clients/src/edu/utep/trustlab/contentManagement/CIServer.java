@@ -47,6 +47,7 @@ import edu.utep.cybershare.ciclient.CIReturnObject;
 import edu.utep.cybershare.ciclient.ciconnect.CIClient;
 import edu.utep.cybershare.ciclient.ciconnect.CIKnownServerTable;
 import edu.utep.trustlab.contentManagement.util.FileUtilities;
+import edu.utep.trustlab.contentManagement.util.GetURLContents;
 
 public class CIServer extends ContentManager {
 	
@@ -110,10 +111,39 @@ public class CIServer extends ContentManager {
 			return null;
 		}
 	}
+	
+	
+	@Override
+	public String saveDocument(byte[] fileContents, String fileName) {
+		try {
+			CIReturnObject ro = null;
+			ro = CIPut.ciUploadFile(ciClient, projectName, fileName, fileContents, CIClient.VISKO_TYPE, true, false);
+			System.out.println("The result is: error code: " + ro.gStatus + " with message: " + ro.gMessage);
+
+			if (ro.gStatus.equals("0")) {
+				System.out.println("The url of the new file is " + ro.gFileURL);
+				System.out.println("Successfully Loaded Transformer file: "	+ ro.gFileURL);
+				return ro.gFileURL;
+			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Cannot upload VisKo document...");
+			return null;
+		}	
+	}
 
 	@Override
 	public String saveDocument(File file) {
-		String fileContents = FileUtilities.readTextFile(file.getAbsolutePath());
+		byte[] fileContents = FileUtilities.readBinaryFile(file.getAbsolutePath());
 		return saveDocument(fileContents, file.getName());
+	}
+
+	@Override
+	public String saveDocument(String url) {
+		byte[] fileContents = GetURLContents.downloadFile(url);
+		String fileName = GetURLContents.getFileNameFromURL(url);
+		
+		return saveDocument(fileContents, fileName);
 	}
 }
