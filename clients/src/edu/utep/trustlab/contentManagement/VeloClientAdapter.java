@@ -32,6 +32,10 @@ public class VeloClientAdapter extends ContentManager {
 	
 	public VeloClientAdapter(String serverURL, String username, String password){
 		url = serverURL;
+		
+		if(!url.endsWith("/"))
+			url = url + "/";
+		
 		uname = username;
 		pword = password;
 		
@@ -66,13 +70,13 @@ public class VeloClientAdapter extends ContentManager {
 	@Override
 	public String getBaseURL() {
 		if(projectName != null)
-			return url + "/webdav/Projects/" + projectName + "/";
+			return url + "webdav/Projects/" + projectName + "/";
 		
 		return null;
 	}
 
 	@Override
 	public String saveDocument(String url) {
-		return client.uploadUrl("/Projects/" + projectName, url);
+		return url + "webdav/" + client.uploadUrl("/Projects/" + projectName, url);
 	}
 }
