@@ -56,13 +56,18 @@ public class CIServer extends ContentManager {
 	private String url;
 	private CIClient ciClient;
 	private static String INFIX = "ciprojects/";
+	private boolean saveInWorkspace;
 
 	public CIServer(String serverURL, String username, String password) {
 		url = serverURL;
 		uname = username;
 		pword = password;
-		
+		saveInWorkspace = false;
 		connect();
+	}
+	
+	public void setSaveInWorkspace(){
+		saveInWorkspace = true;
 	}
 	
 	public CIServer(String serverURL){
@@ -94,6 +99,10 @@ public class CIServer extends ContentManager {
 	
 	@Override
 	public String saveDocument(String fileContents, String fileName) {
+		
+		if(saveInWorkspace)
+			FileUtilities.writeTextFile(fileContents, ContentManager.getWorkspacePath(), fileName);
+		
 		try {
 			CIReturnObject ro = null;
 			ro = CIPut.ciUploadFile(ciClient, projectName, fileName, fileContents, CIClient.VISKO_TYPE, true, false);
@@ -115,6 +124,9 @@ public class CIServer extends ContentManager {
 	
 	@Override
 	public String saveDocument(byte[] fileContents, String fileName) {
+		if(saveInWorkspace)
+			FileUtilities.writeBinaryFile(fileContents, ContentManager.getWorkspacePath(), fileName);
+		
 		try {
 			CIReturnObject ro = null;
 			ro = CIPut.ciUploadFile(ciClient, projectName, fileName, fileContents, CIClient.VISKO_TYPE, true, false);

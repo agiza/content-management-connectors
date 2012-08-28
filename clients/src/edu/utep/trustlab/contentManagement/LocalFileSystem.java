@@ -49,6 +49,7 @@ public class LocalFileSystem extends ContentManager {
 	
 	private String url;
 	private String path;
+	private boolean saveInWorkspace;
 	
 	public LocalFileSystem(String serverURL, String serverPath) {
 		url = serverURL;
@@ -57,6 +58,11 @@ public class LocalFileSystem extends ContentManager {
 			url = url + "/";
 		
 		path = serverPath;
+		saveInWorkspace = false;
+	}
+	
+	public void setSaveInWorkspace(){
+		saveInWorkspace = true;
 	}
 	
 	public LocalFileSystem(String serverURL){
@@ -67,16 +73,23 @@ public class LocalFileSystem extends ContentManager {
 		return url;
 	}
 	public String saveDocument(String fileContents, String fileName) {
+		if(saveInWorkspace)
+			FileUtilities.writeTextFile(fileContents, ContentManager.getWorkspacePath(), fileName);
+		
 		FileUtilities.writeTextFile(fileContents, path, fileName);
 		return url + fileName;
 	}
 	
 	@Override
 	public String saveDocument(byte[] fileContents, String fileName) {
+		if(saveInWorkspace)
+			FileUtilities.writeBinaryFile(fileContents, ContentManager.getWorkspacePath(), fileName);
+
 		FileUtilities.writeBinaryFile(fileContents, path, fileName);
 		return url + fileName;
 	}
 		
+	@Override
 	public String saveDocument(String url){
 		byte[] fileContents = GetURLContents.downloadFile(url);
 		String fileName = GetURLContents.getFileNameFromURL(url);
