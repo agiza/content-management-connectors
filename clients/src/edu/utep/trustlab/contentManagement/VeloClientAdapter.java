@@ -77,6 +77,6 @@ public class VeloClientAdapter extends ContentManager {
 
 	@Override
 	public String saveDocument(String url) {
-		return url + "webdav/" + client.uploadUrl("/Projects/" + projectName, url);
+		return this.url + "webdav/" + client.uploadUrl("/Projects/" + projectName, url);
 	}
 }
