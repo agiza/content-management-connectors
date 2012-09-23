@@ -4,7 +4,7 @@
 	<property name="build" value="build"/>
 	<property name="lib" value="lib"/>
 	<property name="src" value="src"/>
-	<property name="visko-api-util-lib" value="../../visko/api/lib/util"/>
+	<property name="visko-api-content-manager-lib" value="../../visko/api/lib/content-manager"/>
 	
 	<target name="build" depends="compile" description="Creates the jar file">
 		<jar destfile="${jarfile}">
@@ -13,7 +13,7 @@
 	</target>
 
 	<target name="deploy-in-visko-api" depends="build" description="Moves the jar file to visko/api/lib">
-		<copy file="${jarfile}" todir="${visko-api-util-lib}"/>
+		<copy file="${jarfile}" todir="${visko-api-content-manager-lib}"/>
 	</target>
 	
 	<target name="compile" depends="clean" description="Compile in build Directory">		
